@@ -8,6 +8,8 @@ const app = express()
 
 app.post('/submit-image', upload.single('image'), function(req, res) {
   console.log(req.file)
+  console.log(req.body)
+  res.sendStatus(200)
 })
 
 var port = process.env.PORT || 3000;
