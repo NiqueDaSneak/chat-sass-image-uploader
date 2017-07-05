@@ -1,0 +1,24 @@
+{
+  "name": "chat-sass-image-uploader",
+  "version": "1.0.0",
+  "description": "recieve images from front-end, store and distribute",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiqueDaSneak/chat-sass-image-uploader.git"
+  },
+  "author": "niquedasneak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NiqueDaSneak/chat-sass-image-uploader/issues"
+  },
+  "homepage": "https://github.com/NiqueDaSneak/chat-sass-image-uploader#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "multer": "^1.3.0"
+  }
+}
