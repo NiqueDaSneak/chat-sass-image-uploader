@@ -2,12 +2,13 @@
 
 var express = require('express')
 var multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+var upload = multer({ dest: 'uploads/' })
 
 const app = express()
 
-app.post('/submit-image', upload.single('image'), function(req, res) {
+app.post('/submit-image', upload.single('uploadedImage'), function(req, res) {
   console.log(req.file)
+  console.log(req.files)
   console.log(req.body)
   res.sendStatus(200)
 })
