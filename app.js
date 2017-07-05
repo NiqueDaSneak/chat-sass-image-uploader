@@ -24,8 +24,10 @@ app.post("/submit-image", function (req, res) {
     upload(req, res, function (err) {
         if (err) {
             console.log("Something went wrong!")
+            console.log(err);
+        } else {
+          console.log("File uploaded sucessfully!.")
         }
-        console.log("File uploaded sucessfully!.")
     })
 })
 
