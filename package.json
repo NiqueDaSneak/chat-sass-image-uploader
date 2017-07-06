@@ -19,6 +19,7 @@
   "homepage": "https://github.com/NiqueDaSneak/chat-sass-image-uploader#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "mongoose": "^4.11.1",
     "multer": "^1.2.0"
   },
   "false": {}
