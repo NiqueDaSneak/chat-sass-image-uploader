@@ -1,36 +1,21 @@
-var Express = require('express');
-var multer = require('multer');
-var bodyParser = require('body-parser');
-var app = Express();
-app.use(bodyParser.json());
-var Storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, "Images");
-    },
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
-    }
-});
+var express = require('express')
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
-var upload = multer({ storage: Storage }).array("uploadedImage", 3); //Field name and max count
+var app = express();
+
+app.post('/submit-image', upload.single('uploadedImage'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+  console.log(req.file);
+  console.log(req.body);
+})
 
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
-app.post("/submit-image", function (req, res) {
-    upload(req, res, function (err) {
-        if (err) {
-            console.log("Something went wrong!");
-            console.log(err);
-        } else {
-          console.log("File uploaded sucessfully!.");
-        }
-    });
-});
-
-
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 4000
 app.listen(port, function(){
   console.log('Server running on port ' + port)
 
