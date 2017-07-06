@@ -18,7 +18,7 @@ app.get("/", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
-app.post("/api/Upload", function (req, res) {
+app.post("/submit-image", function (req, res) {
     upload(req, res, function (err) {
         if (err) {
             console.log("Something went wrong!");
