@@ -1,3 +1,6 @@
+"use strict"
+
+// NPM PACKAGES
 var express = require('express')
 var multer = require('multer')
 
@@ -10,7 +13,7 @@ var storage = multer.diskStorage({
     cb(null, randomID + '.' + extension)
   }
 })
-var upload = multer({storage: storage})
+var upload = multer({ storage: storage })
 
 var app = express()
 
@@ -29,11 +32,16 @@ var messageSchema = mongoose.Schema({
 })
 var Message = mongoose.model('Message', messageSchema)
 
+// SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
-  var name = req.file.filename
-  var id = name.split('.')[0]
+  var name
+  var id
+  if (req.file) {
+    name = req.file.filename
+    id = name.split('.')[0]
+  }
 
-  console.log(req.body)
+  // saves message based on type
   switch (req.body.type.toLowerCase()) {
     case 'image':
       var newMsg = new Message({
