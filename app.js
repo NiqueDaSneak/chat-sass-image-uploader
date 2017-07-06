@@ -12,7 +12,7 @@ var Storage = multer.diskStorage({
     }
 });
 
-var upload = multer({ storage: Storage }).array("imgUploader", 3); //Field name and max count
+var upload = multer({ storage: Storage }).array("uploadedImage", 3); //Field name and max count
 
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/index.html");
@@ -23,8 +23,9 @@ app.post("/submit-image", function (req, res) {
         if (err) {
             console.log("Something went wrong!");
             console.log(err);
+        } else {
+          console.log("File uploaded sucessfully!.");
         }
-        console.log("File uploaded sucessfully!.");
     });
 });
 
