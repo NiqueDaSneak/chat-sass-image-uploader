@@ -5,7 +5,7 @@ var express = require('express')
 var multer = require('multer')
 
 var storage = multer.diskStorage({
-  destination: 'uploads/',
+  destination: 'public/uploads/',
   filename: (req, file, cb) => {
     var extArray = file.mimetype.split("/")
     var extension = extArray[extArray.length - 1]
@@ -16,6 +16,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 var app = express()
+
+app.use(express.static('public'))
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
