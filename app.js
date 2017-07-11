@@ -19,6 +19,9 @@ var app = express()
 
 app.use(express.static('public'))
 
+// INITIALIZERS
+var chron = {}
+
 // DATABASE SETUP
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://dom:Losangeleslakers47@ds123182.mlab.com:23182/chat-sass-frontend')
@@ -102,7 +105,17 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       break
     default:
   }
+
+  // what req data is needed to trigger chron job
+    // the hour
+    // the month
+    // the day
+    // the year
+  // set chron[msg-id] to a ChronJob function that sends the data to the Messenger server
+
 })
+
+var chron = {}
 
 var port = process.env.PORT || 4000
 app.listen(port, function() {
