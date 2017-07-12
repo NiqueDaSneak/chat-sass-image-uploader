@@ -3,6 +3,7 @@
 // NPM PACKAGES
 var express = require('express')
 var multer = require('multer')
+var schedule = require('node-schedule')
 
 var storage = multer.diskStorage({
   destination: 'public/uploads/',
@@ -13,14 +14,16 @@ var storage = multer.diskStorage({
     cb(null, randomID + '.' + extension)
   }
 })
-var upload = multer({ storage: storage })
+var upload = multer({
+  storage: storage
+})
 
 var app = express()
 
 app.use(express.static('public'))
 
 // INITIALIZERS
-var chron = {}
+var cron = {}
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
@@ -30,6 +33,7 @@ db.on('error', console.error.bind(console, 'connection error:'))
 var messageSchema = mongoose.Schema({
   type: String,
   date: String,
+  time: String,
   assetManifest: Object,
   organization: String,
   groupNames: Array,
@@ -52,6 +56,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
+        time: req.body.time,
         assetManifest: {
           image: req.file.filename
         },
@@ -62,6 +67,21 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          // var mth = Number(msg.date.split('-')[0])
+          // var day = Number(msg.date.split('-')[1])
+          // var year = Number(msg.date.split('-')[2])
+          // var hour = tellTime(msg.time)
+          var mth = 7
+          var day = 12
+          var year = 2017
+          var hour = 12
+          var min = 37
+          var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
+          console.log(cronTime)
+          cron[msg.id] = schedule.scheduleJob(cronTime, () => {
+            console.log('Job Scheduled!!!! ' + cronTime)
+            cron[msg.id].cancel()
+          })
         }
       })
       res.redirect('back')
@@ -70,6 +90,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
+        time: req.body.time,
         assetManifest: {
           text: req.body.msgText
         },
@@ -80,6 +101,21 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          // var mth = Number(msg.date.split('-')[0])
+          // var day = Number(msg.date.split('-')[1])
+          // var year = Number(msg.date.split('-')[2])
+          // var hour = tellTime(msg.time)
+          var mth = 7
+          var day = 12
+          var year = 2017
+          var hour = 12
+          var min = 36
+          var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
+          console.log(cronTime)
+          cron[msg.id] = schedule.scheduleJob(cronTime, () => {
+            console.log('Job Scheduled!!!! ' + cronTime)
+            cron[msg.id].cancel()
+          })
         }
       })
       res.redirect('back')
@@ -88,6 +124,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
+        time: req.body.time,
         assetManifest: {
           text: req.body.msgText,
           image: req.file.filename
@@ -99,23 +136,59 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          // var mth = Number(msg.date.split('-')[0])
+          // var day = Number(msg.date.split('-')[1])
+          // var year = Number(msg.date.split('-')[2])
+          // var hour = tellTime(msg.time)
+          var mth = 7
+          var day = 12
+          var year = 2017
+          var hour = 12
+          var min = 35
+          var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
+          console.log(cronTime)
+          cron[msg.id] = schedule.scheduleJob(cronTime, () => {
+            console.log('Job Scheduled!!!! ' + cronTime)
+            cron[msg.id].cancel()
+          })
         }
       })
       res.redirect('back')
       break
     default:
   }
-
-  // what req data is needed to trigger chron job
-    // the hour
-    // the month
-    // the day
-    // the year
-  // set chron[msg-id] to a ChronJob function that sends the data to the Messenger server
-
 })
 
-var chron = {}
+// HELPER FUNCTION
+function tellTime(time) {
+  var hour
+  if (time.length === 4) {
+    var timeOfDay = time.slice(2).toLowerCase()
+    hour = Number(time.slice(0, 2))
+    if (timeOfDay === 'pm') {
+      if (hour < 12) {
+        hour = hour + 12
+      }
+    } else {
+      if (hour === 12 && timeOfDay === 'am') {
+        hour = 0
+      }
+    }
+  } else if (time.length === 3) {
+    var timeOfDay = time.slice(1).toLowerCase()
+    hour = Number(time.slice(0, 1))
+    if (timeOfDay === 'pm') {
+      if (hour < 12) {
+        hour = hour + 12
+      }
+    } else {
+      if (hour === 12 && timeOfDay === 'am') {
+        hour = 0
+      }
+    }
+  } else {}
+  return hour
+}
 
 var port = process.env.PORT || 4000
 app.listen(port, function() {
