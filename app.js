@@ -4,6 +4,7 @@
 var express = require('express')
 var multer = require('multer')
 var schedule = require('node-schedule')
+// var request = require('request')
 
 var storage = multer.diskStorage({
   destination: 'public/uploads/',
@@ -43,6 +44,7 @@ var Message = mongoose.model('Message', messageSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
+  console.log('form submitted')
   var name
   var id
   if (req.file) {
@@ -72,13 +74,36 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           // var year = Number(msg.date.split('-')[2])
           // var hour = tellTime(msg.time)
           var mth = 7
-          var day = 12
+          var day = 14
           var year = 2017
-          var hour = 12
-          var min = 37
+          var hour = 0
+          var min = 2
           var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
           console.log(cronTime)
           cron[msg.id] = schedule.scheduleJob(cronTime, () => {
+            // this is where you need to post data from to other server
+            // User.findOne({
+            //   organization: msg.organization
+            // }, (err, user) => {
+            //   var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + user.webhook
+            //   var options = {
+            //     method: 'post',
+            //     body: msg,
+            //     json: true,
+            //     url: url
+            //   }
+            //   request(options, function(err, res, body) {
+            //     if (err) {
+            //       console.error('error posting json: ', err)
+            //       throw err
+            //     }
+            //     var headers = res.headers
+            //     var statusCode = res.statusCode
+            //     console.log('headers: ', headers)
+            //     console.log('statusCode: ', statusCode)
+            //     console.log('body: ', body)
+            //   })
+            // })
             console.log('Job Scheduled!!!! ' + cronTime)
             cron[msg.id].cancel()
           })
