@@ -45,11 +45,14 @@ var Message = mongoose.model('Message', messageSchema)
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
   console.log('form submitted')
+  console.log(req.body)
   var name
   var id
   if (req.file) {
     name = req.file.filename
     id = name.split('.')[0]
+  } else {
+    id = Math.floor((Math.random() * 10000) + 1)
   }
 
   // saves message based on type
@@ -118,7 +121,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   next()
 }, (req, res, next) => {
   console.log('from second request handler')
-  console.log(req.body)
+  console.log(req.body.id)
   // var mth = Number(msg.date.split('-')[0])
           // var day = Number(msg.date.split('-')[1])
           // var year = Number(msg.date.split('-')[2])
