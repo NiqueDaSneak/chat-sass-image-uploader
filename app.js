@@ -76,34 +76,34 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           var mth = 7
           var day = 14
           var year = 2017
-          var hour = 0
-          var min = 2
+          var hour = 1
+          var min = 1
           var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
           console.log(cronTime)
           cron[msg.id] = schedule.scheduleJob(cronTime, () => {
             // this is where you need to post data from to other server
-            // User.findOne({
-            //   organization: msg.organization
-            // }, (err, user) => {
-            //   var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + user.webhook
-            //   var options = {
-            //     method: 'post',
-            //     body: msg,
-            //     json: true,
-            //     url: url
-            //   }
-            //   request(options, function(err, res, body) {
-            //     if (err) {
-            //       console.error('error posting json: ', err)
-            //       throw err
-            //     }
-            //     var headers = res.headers
-            //     var statusCode = res.statusCode
-            //     console.log('headers: ', headers)
-            //     console.log('statusCode: ', statusCode)
-            //     console.log('body: ', body)
-            //   })
-            // })
+            User.findOne({
+              organization: msg.organization
+            }, (err, user) => {
+              var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + user.webhook
+              var options = {
+                method: 'post',
+                body: msg,
+                json: true,
+                url: url
+              }
+              request(options, function(err, res, body) {
+                if (err) {
+                  console.error('error posting json: ', err)
+                  throw err
+                }
+                var headers = res.headers
+                var statusCode = res.statusCode
+                console.log('headers: ', headers)
+                console.log('statusCode: ', statusCode)
+                console.log('body: ', body)
+              })
+            })
             console.log('Job Scheduled!!!! ' + cronTime)
             cron[msg.id].cancel()
           })
