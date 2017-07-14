@@ -88,6 +88,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          req.app.locals.msg = msg
         }
       })
       res.redirect('back')
@@ -117,6 +118,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   next()
 }, (req, res, next) => {
   console.log('from second request handler')
+  console.log(req.app.locals.msg)
   // var mth = Number(msg.date.split('-')[0])
           // var day = Number(msg.date.split('-')[1])
           // var year = Number(msg.date.split('-')[2])
@@ -128,7 +130,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   var min = 49
   var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
   // console.log(cronTime)
-  cron[msg.id] = schedule.scheduleJob(cronTime, () => {
+  // cron[msg.id] = schedule.scheduleJob(cronTime, () => {
     // this is where you need to post data from to other server
     // User.findOne({
     //   organization: msg.organization
@@ -152,9 +154,9 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     //     console.log('body: ', body)
     //   })
     // })
-    console.log('Job Scheduled!!!! ' + cronTime)
-    cron[msg.id].cancel()
-  })
+  //   console.log('Job Scheduled!!!! ' + cronTime)
+  //   cron[msg.id].cancel()
+  // })
 })
 
 // HELPER FUNCTION
