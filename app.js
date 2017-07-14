@@ -77,7 +77,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           var day = 14
           var year = 2017
           var hour = 1
-          var min = 1
+          var min = 15
           var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
           console.log(cronTime)
           cron[msg.id] = schedule.scheduleJob(cronTime, () => {
