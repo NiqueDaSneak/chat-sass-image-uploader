@@ -118,7 +118,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   next()
 }, (req, res, next) => {
   console.log('from second request handler')
-  console.log(req.app.locals.msg)
+  console.log(req.body)
   // var mth = Number(msg.date.split('-')[0])
           // var day = Number(msg.date.split('-')[1])
           // var year = Number(msg.date.split('-')[2])
