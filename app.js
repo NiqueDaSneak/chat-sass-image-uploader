@@ -43,10 +43,8 @@ var messageSchema = mongoose.Schema({
 var Message = mongoose.model('Message', messageSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
+var msgCopy
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
-  console.log('form submitted')
-  console.log(req.body)
-  var msgCopy
   var name
   var id
   if (req.file) {
@@ -73,6 +71,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          msgCopy = msg
         }
       })
       res.redirect('back')
@@ -92,7 +91,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          req.app.locals.msg = msg
+          msgCopy = msg
         }
       })
       res.redirect('back')
@@ -116,11 +115,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           msgCopy = msg
         }
       })
+      res.redirect('back')
       break
     default:
   }
   // console.log(msgCopy)
-  res.redirect('back')
   // next()
 }, (req, res, next) => {
 
