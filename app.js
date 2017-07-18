@@ -44,18 +44,20 @@ var Message = mongoose.model('Message', messageSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
-  var name
-  var id
-  if (req.file) {
-    name = req.file.filename
-    id = name.split('.')[0]
-  } else {
-    id = Math.floor((Math.random() * 10000) + 1)
-  }
+  // promises
+  var step1 = new Promise(function(resolve, reject) {
+    var name
+    var id
+    if (req.file) {
+      name = req.file.filename
+      id = name.split('.')[0]
+    } else {
+      id = Math.floor((Math.random() * 10000) + 1)
+    }
 
-  // saves message based on type
-  switch (req.body.type.toLowerCase()) {
-    case 'image':
+    // saves message based on type
+    switch (req.body.type.toLowerCase()) {
+      case 'image':
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
@@ -70,12 +72,12 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          // next()
+          resolve()
         }
       })
       // res.redirect('back')
       break
-    case 'text':
+      case 'text':
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
@@ -90,12 +92,12 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          // next()
+          resolve()
         }
       })
       // res.redirect('back')
       break
-    case 'both':
+      case 'both':
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
@@ -111,21 +113,32 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          // next()
+          resolve()
         }
       })
       // res.redirect('back')
       break
-    default:
-  }
-  Message.findOne({ id: req.body.id }, (err, msg) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('found: ' + msg)
+      default:
     }
   })
-  res.redirect('back')
+
+  var step2 = new Promise(function(resolve, reject) {
+    Message.findOne({ id: req.body.id }, (err, msg) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('found: ' + msg)
+      }
+    })
+  })
+
+  step1().then(() => {
+    step2().then(() => {
+      
+      res.redirect('back')
+    })
+  })
+
 })
 
 // , (req, res, next) => {
