@@ -46,6 +46,7 @@ var Message = mongoose.model('Message', messageSchema)
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
   console.log('form submitted')
   console.log(req.body)
+  var msgCopy
   var name
   var id
   if (req.file) {
@@ -112,16 +113,19 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          req.msgCopy = msg
         }
       })
-      res.redirect('back')
       break
     default:
   }
-  next()
+  // console.log(msgCopy)
+  res.redirect('back')
+  // next()
 }, (req, res, next) => {
+
   console.log('from second request handler')
-  console.log(req.body.id)
+  console.log(req.msgCopy)
   // var mth = Number(msg.date.split('-')[0])
           // var day = Number(msg.date.split('-')[1])
           // var year = Number(msg.date.split('-')[2])
