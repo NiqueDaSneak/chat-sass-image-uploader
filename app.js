@@ -43,7 +43,6 @@ var messageSchema = mongoose.Schema({
 var Message = mongoose.model('Message', messageSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
-var msgCopy
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
   var name
   var id
@@ -71,10 +70,9 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          msgCopy = msg
         }
       })
-      res.redirect('back')
+      // res.redirect('back')
       break
     case 'text':
       var newMsg = new Message({
@@ -91,10 +89,9 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          msgCopy = msg
         }
       })
-      res.redirect('back')
+      // res.redirect('back')
       break
     case 'both':
       var newMsg = new Message({
@@ -112,19 +109,24 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          msgCopy = msg
         }
       })
-      res.redirect('back')
+      // res.redirect('back')
       break
     default:
   }
-  console.log('msgCopy: ' + msgCopy)
   next()
 }, (req, res, next) => {
 
   console.log('from second request handler')
-  console.log(msgCopy)
+  Message.findOne({ id: req.body.id }, (err, msg) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(msg)
+    }
+  })
+  res.redirect('back')
   // var mth = Number(msg.date.split('-')[0])
           // var day = Number(msg.date.split('-')[1])
           // var year = Number(msg.date.split('-')[2])
