@@ -121,7 +121,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
 }, (req, res, next) => {
 
   console.log('from second request handler')
-  Message.find({ id: req.body.id }, (err, msg) => {
+  console.log('id: ' + req.body.id)
+  Message.findOne({ id: req.body.id }, (err, msg) => {
     if (err) {
       console.log(err)
     } else {
