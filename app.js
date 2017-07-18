@@ -126,8 +126,10 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     Message.findOne({ id: req.body.id }, (err, msg) => {
       if (err) {
         console.log(err)
+        resolve()
       } else {
         console.log('found: ' + msg)
+        resolve()
       }
     })
   })
