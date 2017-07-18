@@ -70,6 +70,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          next()
         }
       })
       // res.redirect('back')
@@ -89,6 +90,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          next()
         }
       })
       // res.redirect('back')
@@ -109,13 +111,13 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          next()
         }
       })
       // res.redirect('back')
       break
     default:
   }
-  next()
 }, (req, res, next) => {
 
   console.log('from second request handler')
