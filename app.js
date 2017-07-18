@@ -138,7 +138,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   }
 
   step1.then((mesg) => {
-    step2.then(() => {
+    step2(mesg).then(() => {
 
       res.redirect('back')
     })
