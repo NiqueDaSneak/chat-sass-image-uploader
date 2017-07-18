@@ -119,8 +119,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       break
     default:
   }
-  // console.log(msgCopy)
-  // next()
+  console.log('msgCopy: ' + msgCopy)
+  next()
 }, (req, res, next) => {
 
   console.log('from second request handler')
