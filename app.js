@@ -125,6 +125,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       console.log('found: ' + msg)
     }
   })
+  res.redirect('back')
 })
 // , (req, res, next) => {
 //   console.log('from second request handler')
