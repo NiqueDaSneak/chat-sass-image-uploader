@@ -45,9 +45,9 @@ var Message = mongoose.model('Message', messageSchema)
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
   // promises
+  var id
   var step1 = new Promise(function(resolve, reject) {
     var name
-    var id
     if (req.file) {
       name = req.file.filename
       id = name.split('.')[0]
@@ -124,7 +124,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
 
   var step2 = new Promise(function(resolve, reject) {
     // console.log('id: ' + req.body.id)
-    console.log('id: ' + req.body.id)
+    console.log('id: ' + id)
     resolve()
     // Message.findOne({ id: req.body.id }, (err, msg) => {
     //   if (err) {
