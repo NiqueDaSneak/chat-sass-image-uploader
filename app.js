@@ -113,7 +113,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
-          req.msgCopy = msg
+          msgCopy = msg
         }
       })
       break
@@ -125,7 +125,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
 }, (req, res, next) => {
 
   console.log('from second request handler')
-  console.log(req.msgCopy)
+  console.log(msgCopy)
   // var mth = Number(msg.date.split('-')[0])
           // var day = Number(msg.date.split('-')[1])
           // var year = Number(msg.date.split('-')[2])
