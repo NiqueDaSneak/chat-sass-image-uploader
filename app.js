@@ -132,9 +132,9 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     })
   })
 
-  step1().then(() => {
-    step2().then(() => {
-      
+  step1.then(() => {
+    step2.then(() => {
+
       res.redirect('back')
     })
   })
