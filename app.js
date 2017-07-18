@@ -44,7 +44,6 @@ var Message = mongoose.model('Message', messageSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
-  console.log('body:' + req.body.id)
   // promises
   var step1 = new Promise(function(resolve, reject) {
     var name
@@ -79,6 +78,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       // res.redirect('back')
       break
       case 'text':
+      console.log('type: ' + req.body.type)
       var newMsg = new Message({
         type: req.body.type,
         date: req.body.date,
@@ -124,7 +124,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   })
 
   var step2 = new Promise(function(resolve, reject) {
-    console.log('id: ' + req.body.id)
+    // console.log('id: ' + req.body.id)
     resolve()
     // Message.findOne({ id: req.body.id }, (err, msg) => {
     //   if (err) {
@@ -136,12 +136,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     //   }
     // })
   })
-  console.log('body:' + req.body)
   step1.then(() => {
-    step2.then(() => {
+    // step2.then(() => {
 
       res.redirect('back')
-    })
+    // })
   })
 
 })
