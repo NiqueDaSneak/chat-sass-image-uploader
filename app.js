@@ -44,6 +44,7 @@ var Message = mongoose.model('Message', messageSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
+  console.dir('body:' + req.body)
   // promises
   var step1 = new Promise(function(resolve, reject) {
     var name
