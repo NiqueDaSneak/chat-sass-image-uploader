@@ -122,23 +122,22 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     }
   })
 
-  function step2(mesg) {
-    return new Promise(function(resolve, reject) {
-      // Message.findOne({ id: req.body.id }, (err, msg) => {
-      //   if (err) {
-      //     console.log(err)
-      //     resolve()
-      //   } else {
-      //     console.log('found: ' + msg)
-      console.log(mesg)
-          resolve(mesg)
-      //   }
-      // })
-    })
-  }
+  var step2 = new Promise(function(resolve, reject) {
+    console.log(req.body.id)
+    resolve()
+    // Message.findOne({ id: req.body.id }, (err, msg) => {
+    //   if (err) {
+    //     console.log(err)
+    //     resolve()
+    //   } else {
+    //     console.log('found: ' + msg)
+    //     resolve()
+    //   }
+    // })
+  })
 
-  step1.then((mesg) => {
-    step2(mesg).then(() => {
+  step1.then(() => {
+    step2.then(() => {
 
       res.redirect('back')
     })
