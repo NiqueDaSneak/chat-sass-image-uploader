@@ -147,16 +147,17 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     }
   })
 
-    // var mth = Number(msg.date.split('-')[0])
+    // var mth = Number(msg.date.split('-')[0]) - 1
     // var day = Number(msg.date.split('-')[1])
     // var year = Number(msg.date.split('-')[2])
     // var hour = tellTime(msg.time)
-    var mth = 7
+    var mth = 6
     var day = 19
     var year = 2017
     var hour = 21
-    var min = 8
-    var cronTime = '*' + ' ' + min.toString() + ' ' + hour.toString() + ' ' + day.toString() + ' ' + mth.toString() + ' ' + '*'
+    var min = 13
+    // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
+    var schedDate = new Date(year, mth, day, hour, min, 0 )
     console.log(cronTime)
     // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
     // var options = {
@@ -167,7 +168,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     // }
 
 
-    var cron = schedule.scheduleJob(cronTime, () => {
+    var cron = schedule.scheduleJob(date, () => {
       // this is where you need to post data from to other server
       // request(options, function(err, res, body) {
       //   if (err) {
