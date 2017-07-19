@@ -123,8 +123,9 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   })
 
   var step2 = new Promise(function(resolve, reject) {
-    console.log(id)
-    Message.findOne({ id: id }, (err, msg) => {
+    var ident = id
+    console.log(ident)
+    Message.findOne({ id: ident }, (err, msg) => {
       if (err) {
         console.log(err)
         resolve()
