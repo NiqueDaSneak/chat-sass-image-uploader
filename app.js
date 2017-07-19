@@ -155,8 +155,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var mth = 7
     var day = 18
     var year = 2017
-    var hour = 22
-    var min = 20
+    var hour = 20
+    var min = 12
     var cronTime = '0' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*'
     console.log(cronTime)
     var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
