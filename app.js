@@ -24,7 +24,6 @@ var app = express()
 app.use(express.static('public'))
 
 // INITIALIZERS
-var cron = {}
 var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
 console.log('date: ' + date)
 
@@ -156,8 +155,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 19
     var year = 2017
     var hour = 20
-    var min = 31
-    var cronTime = '0' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
+    var min = 38
+    var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     console.log(cronTime)
     var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
     var options = {
@@ -166,7 +165,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       json: true,
       url: url
     }
-    cron[req.app.locals.id] = schedule.scheduleJob(cronTime, () => {
+    var cron = schedule.scheduleJob(cronTime, () => {
       // this is where you need to post data from to other server
         console.log('webhook & penis: ' + webhook)
         // request(options, function(err, res, body) {
@@ -184,6 +183,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       console.log('Job Scheduled!!!! ' + cronTime)
       cron[req.app.locals.id].cancel()
     })
+    console.log(cron[req.app.locals.id])
   res.redirect('back')
 })
 
