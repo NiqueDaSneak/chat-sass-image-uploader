@@ -154,8 +154,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var mth = 7
     var day = 19
     var year = 2017
-    var hour = 20
-    var min = 38
+    var hour = 21
+    var min = 4
     var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     console.log(cronTime)
     var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
@@ -165,25 +165,25 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       json: true,
       url: url
     }
+
+
     var cron = schedule.scheduleJob(cronTime, () => {
       // this is where you need to post data from to other server
-        console.log('webhook & penis: ' + webhook)
-        // request(options, function(err, res, body) {
-        //   if (err) {
-        //     console.error('error posting json: ', err)
-        //     throw err
-        //   }
-        //   var headers = res.headers
-        //   var statusCode = res.statusCode
-        //   console.log('headers: ', headers)
-        //   console.log('statusCode: ', statusCode)
-        //   console.log('body: ', body)
-        // })
-
-      console.log('Job Scheduled!!!! ' + cronTime)
-      cron[req.app.locals.id].cancel()
+      // request(options, function(err, res, body) {
+      //   if (err) {
+      //     console.error('error posting json: ', err)
+      //     throw err
+      //   }
+      //   var headers = res.headers
+      //   var statusCode = res.statusCode
+      //   console.log('headers: ', headers)
+      //   console.log('statusCode: ', statusCode)
+      //   console.log('body: ', body)
+      // })
+      console.log('Scheduled Job Just Ran! at: ' + cronTime)
+      cron.cancel()
     })
-    console.log(cron[req.app.locals.id])
+    // console.log(cron)
   res.redirect('back')
 })
 
