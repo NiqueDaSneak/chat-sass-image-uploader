@@ -73,7 +73,6 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         if (err) {
           return console.error(err)
         } else {
-          console.log('message saved:' + msg)
           req.app.locals.id = id
           req.app.locals.org = req.body.organization
           next()
@@ -95,7 +94,6 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         if (err) {
           return console.error(err)
         } else {
-          console.log('message saved:' + msg)
           req.app.locals.id = id
           req.app.locals.org = req.body.organization
           next()
@@ -118,7 +116,6 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         if (err) {
           return console.error(err)
         } else {
-          console.log('message saved:' + msg)
           req.app.locals.id = id
           req.app.locals.org = req.body.organization
           next()
@@ -129,28 +126,26 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     default:
   }
 }, (req, res, next) => {
+  var message
+  var webhook
+
   Message.findOne({ 'id': req.app.locals.id }, (err, msg) => {
     if (err) {
       console.log(err)
     } else {
-      req.app.locals.message = msg
-      console.log(req.app.locals.message)
+      message = msg
     }
   })
+
   User.findOne({ 'organization': req.app.locals.org }, (err, user) => {
     if (err) {
       console.log(err)
     } else {
       // console.log(user)
-      req.app.locals.webhook = user.webhook.toString()
-      console.log(req.app.locals.webhook)
+      webhook = user.webhook.toString()
     }
   })
-  next()
-  }, (req, res, next) => {
-    console.log('msg: ' + req.app.locals.message)
-    console.log('webhook: ' + req.app.locals.webhook)
-    // console.log('found: ' + msg)
+
     // var mth = Number(msg.date.split('-')[0])
     // var day = Number(msg.date.split('-')[1])
     // var year = Number(msg.date.split('-')[2])
@@ -160,12 +155,12 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var year = 2017
     var hour = 22
     var min = 20
-    var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
+    var cronTime = '4' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*'
     console.log(cronTime)
     var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
     var options = {
       method: 'post',
-      body: req.app.locals.msg,
+      body: message,
       json: true,
       url: url
     }
