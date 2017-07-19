@@ -134,6 +134,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       console.log(err)
     } else {
       req.app.locals.message = msg
+      console.log(req.app.locals.message)
     }
   })
   User.findOne({ 'organization': req.app.locals.org }, (err, user) => {
@@ -142,6 +143,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     } else {
       // console.log(user)
       req.app.locals.webhook = user.webhook.toString()
+      console.log(req.app.locals.webhook)
     }
   })
   next()
