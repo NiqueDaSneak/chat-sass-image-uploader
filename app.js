@@ -137,10 +137,10 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       // var year = Number(msg.date.split('-')[2])
       // var hour = tellTime(msg.time)
       var mth = 7
-      var day = 14
+      var day = 18
       var year = 2017
-      var hour = 2
-      var min = 49
+      var hour = 21
+      var min = 34
       var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
       console.log(cronTime)
       cron[req.app.locals.id] = schedule.scheduleJob(cronTime, () => {
