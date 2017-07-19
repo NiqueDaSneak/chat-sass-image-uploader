@@ -72,6 +72,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         } else {
           console.log('message saved:' + msg)
           req.app.locals.id = id
+          req.app.locals.org = req.body.organization
           next()
         }
       })
@@ -93,6 +94,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         } else {
           console.log('message saved:' + msg)
           req.app.locals.id = id
+          req.app.locals.org = req.body.organization
           next()
         }
       })
@@ -115,6 +117,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         } else {
           console.log('message saved:' + msg)
           req.app.locals.id = id
+          req.app.locals.org = req.body.organization
           next()
         }
       })
@@ -140,36 +143,35 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       var min = 49
       var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
       console.log(cronTime)
+      cron[req.app.locals.id] = schedule.scheduleJob(cronTime, () => {
+        // this is where you need to post data from to other server
+        User.findOne({ 'organization': req.app.locals.org }, (err, user) => {
+          console.log(user.webhook)
+          var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + user.webhook
+          var options = {
+            method: 'post',
+            body: msg,
+            json: true,
+            url: url
+          }
+          // request(options, function(err, res, body) {
+          //   if (err) {
+          //     console.error('error posting json: ', err)
+          //     throw err
+          //   }
+          //   var headers = res.headers
+          //   var statusCode = res.statusCode
+          //   console.log('headers: ', headers)
+          //   console.log('statusCode: ', statusCode)
+          //   console.log('body: ', body)
+          // })
+        })
+        console.log('Job Scheduled!!!! ' + cronTime)
+        cron[msg.id].cancel()
+      })
     }
   })
   res.redirect('back')
-  // cron[msg.id] = schedule.scheduleJob(cronTime, () => {
-  //   // this is where you need to post data from to other server
-  //   User.findOne({
-  //     organization: msg.organization
-  //   }, (err, user) => {
-  //     var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + user.webhook
-  //     var options = {
-  //       method: 'post',
-  //       body: msg,
-  //       json: true,
-  //       url: url
-  //     }
-  //     request(options, function(err, res, body) {
-  //       if (err) {
-  //         console.error('error posting json: ', err)
-  //         throw err
-  //       }
-  //       var headers = res.headers
-  //       var statusCode = res.statusCode
-  //       console.log('headers: ', headers)
-  //       console.log('statusCode: ', statusCode)
-  //       console.log('body: ', body)
-  //     })
-  //   })
-  //   console.log('Job Scheduled!!!! ' + cronTime)
-  //   cron[msg.id].cancel()
-  // })
 })
 
 // HELPER FUNCTION
