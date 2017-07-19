@@ -4,7 +4,7 @@
 var express = require('express')
 var multer = require('multer')
 var schedule = require('node-schedule')
-// var request = require('request')
+var request = require('request')
 
 var storage = multer.diskStorage({
   destination: 'public/uploads/',
@@ -155,7 +155,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 19
     var year = 2017
     var hour = 17
-    var min = 50
+    var min = 54
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
     console.log(schedDate)
@@ -171,7 +171,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       }
       // console.log(options)
       console.log('Scheduled Job Just Ran! at: ' + schedDate)
-      
+
       // this is where you need to post data from to other server
       request(options, function(err, res, body) {
         if (err) {
