@@ -137,6 +137,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       console.log(err)
     } else {
       message = msg
+      console.log('found msg: ' + message)
     }
   })
   User.findOne({ 'organization': req.app.locals.org }, (err, user) => {
@@ -144,8 +145,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       console.log(err)
     } else {
       console.log(user)
-      // webhook = user.webhook
-      // console.log('found webhook: ' + webhook)
+      webhook = user.webhook.toString()
+      console.log('found webhook: ' + webhook)
     }
   })
     // console.log('found: ' + msg)
@@ -156,8 +157,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var mth = 7
     var day = 18
     var year = 2017
-    var hour = 21
-    var min = 47
+    var hour = 22
+    var min = 11
     var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     console.log(cronTime)
     cron[req.app.locals.id] = schedule.scheduleJob(cronTime, () => {
