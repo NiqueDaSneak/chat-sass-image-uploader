@@ -182,7 +182,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       //   console.log('statusCode: ', statusCode)
       //   console.log('body: ', body)
       // })
-      console.log('Scheduled Job Just Ran! at: ' + cronTime)
+      console.log('Scheduled Job Just Ran! at: ' + schedTime)
     })
     // console.log(cron)
   res.redirect('back')
