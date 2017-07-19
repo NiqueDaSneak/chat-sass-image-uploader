@@ -135,10 +135,19 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       }
     })
   })
+
+  Message.findOne({ 'id': 4160 }, (err, msg) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('found: ' + msg)
+    }
+  })
+
   step1.then(() => {
-    step2.then(() => {
+    // step2.then(() => {
       res.redirect('back')
-    })
+    // })
   })
 
 })
