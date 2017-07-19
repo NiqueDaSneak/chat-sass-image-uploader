@@ -42,6 +42,9 @@ var messageSchema = mongoose.Schema({
 })
 var Message = mongoose.model('Message', messageSchema)
 
+var userSchema = mongoose.Schema({email: String, organization: String, password: String, webhook: Number})
+var User = mongoose.model('User', userSchema)
+
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
 
@@ -126,7 +129,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     default:
   }
 }, (req, res, next) => {
-  console.log(req.app.locals)
+  // console.log(req.app.locals)
   var message
   var webhook
   Message.findOne({ 'id': req.app.locals.id }, (err, msg) => {
