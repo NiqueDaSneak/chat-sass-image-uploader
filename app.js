@@ -143,8 +143,9 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     if (err) {
       console.log(err)
     } else {
-      webhook = user.webhook
-      console.log('found webhook: ' + webhook)
+      console.log(user)
+      // webhook = user.webhook
+      // console.log('found webhook: ' + webhook)
     }
   })
     // console.log('found: ' + msg)
