@@ -71,6 +71,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          req.app.locals.id = id
+          next()
         }
       })
       // res.redirect('back')
@@ -90,6 +92,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          req.app.locals.id = id
+          next()
         }
       })
       // res.redirect('back')
@@ -110,16 +114,16 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           return console.error(err)
         } else {
           console.log('message saved:' + msg)
+          req.app.locals.id = id
+          next()
         }
       })
       // res.redirect('back')
       break
     default:
   }
-  req.app.locals.id = id
-  next()
 }, (req, res, next) => {
-
+  console.log(req.app.locals)
   Message.findOne({ 'id': req.app.locals.id }, (err, msg) => {
     if (err) {
       console.log(err)
