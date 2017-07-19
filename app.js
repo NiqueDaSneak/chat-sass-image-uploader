@@ -155,21 +155,21 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 19
     var year = 2017
     var hour = 17
-    var min = 34
+    var min = 39
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
     console.log(schedDate)
-    // console.log(cronTime)
-    // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
-    // var options = {
-    //   method: 'post',
-    //   body: message,
-    //   json: true,
-    //   url: url
-    // }
 
 
     var cron = schedule.scheduleJob(schedDate, () => {
+      var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
+      var options = {
+        method: 'post',
+        body: message,
+        json: true,
+        url: url
+      }
+      console.log(options)
       // this is where you need to post data from to other server
       // request(options, function(err, res, body) {
       //   if (err) {
