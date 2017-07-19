@@ -140,14 +140,14 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     if (err) {
       console.log(err)
     } else {
-      console.log(user)
+      // console.log(user)
       req.app.locals.webhook = user.webhook.toString()
     }
   })
   next()
   }, (req, res, next) => {
-    console.log(req.app.locals.msg)
-    console.log(req.app.locals.webhook)
+    console.log('msg: ' + req.app.locals.message)
+    console.log('webhook: ' + req.app.locals.webhook)
     // console.log('found: ' + msg)
     // var mth = Number(msg.date.split('-')[0])
     // var day = Number(msg.date.split('-')[1])
