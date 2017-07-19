@@ -169,20 +169,21 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         json: true,
         url: url
       }
-      console.log(options)
-      // this is where you need to post data from to other server
-      // request(options, function(err, res, body) {
-      //   if (err) {
-      //     console.error('error posting json: ', err)
-      //     throw err
-      //   }
-      //   var headers = res.headers
-      //   var statusCode = res.statusCode
-      //   console.log('headers: ', headers)
-      //   console.log('statusCode: ', statusCode)
-      //   console.log('body: ', body)
-      // })
+      // console.log(options)
       console.log('Scheduled Job Just Ran! at: ' + schedDate)
+      
+      // this is where you need to post data from to other server
+      request(options, function(err, res, body) {
+        if (err) {
+          console.error('error posting json: ', err)
+          throw err
+        }
+        var headers = res.headers
+        var statusCode = res.statusCode
+        console.log('headers: ', headers)
+        console.log('statusCode: ', statusCode)
+        console.log('body: ', body)
+      })
     })
     // console.log(cron)
   res.redirect('back')
