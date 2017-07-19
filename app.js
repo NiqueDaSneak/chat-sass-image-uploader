@@ -129,15 +129,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     default:
   }
 }, (req, res, next) => {
-  // console.log(req.app.locals)
-  var message
-  var webhook
   Message.findOne({ 'id': req.app.locals.id }, (err, msg) => {
     if (err) {
       console.log(err)
     } else {
-      message = msg
-      console.log('found msg: ' + message)
+      req.app.locals.message = msg
     }
   })
   User.findOne({ 'organization': req.app.locals.org }, (err, user) => {
@@ -145,10 +141,13 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       console.log(err)
     } else {
       console.log(user)
-      webhook = user.webhook.toString()
-      console.log('found webhook: ' + webhook)
+      req.app.locals.webhook = user.webhook.toString()
     }
   })
+  next()
+  }, (req, res, next) => {
+    console.log(req.app.locals.msg)
+    console.log(req.app.locals.webhook)
     // console.log('found: ' + msg)
     // var mth = Number(msg.date.split('-')[0])
     // var day = Number(msg.date.split('-')[1])
@@ -158,19 +157,19 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 18
     var year = 2017
     var hour = 22
-    var min = 11
+    var min = 20
     var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     console.log(cronTime)
+    var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
+    var options = {
+      method: 'post',
+      body: req.app.locals.msg,
+      json: true,
+      url: url
+    }
     cron[req.app.locals.id] = schedule.scheduleJob(cronTime, () => {
       // this is where you need to post data from to other server
-        console.log(webhook)
-        var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + user.webhook
-        var options = {
-          method: 'post',
-          body: msg,
-          json: true,
-          url: url
-        }
+        console.log('webhook: ' + webhook)
         // request(options, function(err, res, body) {
         //   if (err) {
         //     console.error('error posting json: ', err)
