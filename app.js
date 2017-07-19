@@ -116,18 +116,18 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       break
     default:
   }
+  req.locals.id = id
+  next()
+}, (req, res, next) => {
 
-  Message.findOne({ 'id': id }, (err, msg) => {
+  Message.findOne({ 'id': req.locals.id }, (err, msg) => {
     if (err) {
       console.log(err)
     } else {
       console.log('found: ' + msg)
     }
   })
-
-})
-
-// , (req, res, next) => {
+  res.redirect('back')
 //   console.log('from second request handler')
 //   console.log('body: ' + req.body)
 //   Message.findOne({ id: req.body.id }, (err, msg) => {
@@ -176,7 +176,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
 //   //   console.log('Job Scheduled!!!! ' + cronTime)
 //   //   cron[msg.id].cancel()
 //   // })
-// })
+})
 
 // HELPER FUNCTION
 function tellTime(time) {
