@@ -25,7 +25,7 @@ app.use(express.static('public'))
 
 // INITIALIZERS
 var cron = {}
-console.log('date: ' + Date.now())
+console.log('date: ' + Date.now().toISOString().replace(/T/, ' ').replace(/\..+/, ''))
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
