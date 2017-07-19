@@ -116,11 +116,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       break
     default:
   }
-  req.locals.id = id
+  req.app.locals.id = id
   next()
 }, (req, res, next) => {
 
-  Message.findOne({ 'id': req.locals.id }, (err, msg) => {
+  Message.findOne({ 'id': req.app.locals.id }, (err, msg) => {
     if (err) {
       console.log(err)
     } else {
