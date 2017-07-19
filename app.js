@@ -155,7 +155,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 19
     var year = 2017
     var hour = 21
-    var min = 17
+    var min = 21
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
     // console.log(cronTime)
@@ -182,7 +182,6 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       //   console.log('body: ', body)
       // })
       console.log('Scheduled Job Just Ran! at: ' + cronTime)
-      cron.cancel()
     })
     // console.log(cron)
   res.redirect('back')
