@@ -25,6 +25,7 @@ app.use(express.static('public'))
 
 // INITIALIZERS
 var cron = {}
+console.log('date: ' + Date.now())
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
@@ -155,7 +156,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var year = 2017
     var hour = 22
     var min = 20
-    var cronTime = '4' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*'
+    var cronTime = '0' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*' + ' ' + '*'
     console.log(cronTime)
     var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + req.app.locals.webhook
     var options = {
