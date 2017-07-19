@@ -28,6 +28,7 @@ var cron = {}
 var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
 console.log('date: ' + date)
 
+
 // DATABASE SETUP
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://dom:Losangeleslakers47@ds123182.mlab.com:23182/chat-sass-frontend')
