@@ -25,7 +25,6 @@ app.use(express.static('public'))
 
 // INITIALIZERS
 var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-console.log('date: ' + date)
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
@@ -151,11 +150,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     // var day = Number(msg.date.split('-')[1])
     // var year = Number(msg.date.split('-')[2])
     // var hour = tellTime(msg.time)
-    var mth = 6
-    var day = 19
+    var mth = 7
+    var day = 20
     var year = 2017
-    var hour = 21
-    var min = 5
+    var hour = 16
+    var min = 18
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
