@@ -25,6 +25,7 @@ app.use(express.static('public'))
 
 // INITIALIZERS
 var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+console.log(date)
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
