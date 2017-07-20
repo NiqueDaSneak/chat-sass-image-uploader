@@ -154,8 +154,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var mth = 6
     var day = 19
     var year = 2017
-    var hour = 18
-    var min = 26
+    var hour = 21
+    var min = 4
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
@@ -180,7 +180,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         console.log('headers: ', headers)
         console.log('statusCode: ', statusCode)
         console.log('body: ', body)
-      })
+      })s
     })
   res.redirect('back')
 })
