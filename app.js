@@ -152,10 +152,10 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     // var year = Number(msg.date.split('-')[2])
     // var hour = tellTime(msg.time)
     var mth = 6
-    var day = 20
+    var day = 21
     var year = 2017
-    var hour = 16
-    var min = 30
+    var hour = 10
+    var min = 35
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
