@@ -5,6 +5,7 @@ var express = require('express')
 var multer = require('multer')
 var schedule = require('node-schedule')
 var request = require('request')
+var cloudinary = require('cloudinary')
 
 var storage = multer.diskStorage({
   destination: 'public/uploads/',
@@ -25,7 +26,11 @@ app.use(express.static('public'))
 
 // INITIALIZERS
 var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-console.log(date)
+cloudinary.config({
+  cloud_name: 'affirmation-today',
+  api_key: '758238269824916',
+  api_secret: '3mX-vpSLM4IRVRUaHNh3ueWDzuU'
+})
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
@@ -57,6 +62,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   } else {
     id = Math.floor((Math.random() * 10000) + 1)
   }
+
+  // uploads to Cloudinary
+  // cloudinary.v2.uploader.upload(req.files.myImage.path, (error, result) => {
+  //   console.log(result)
+  // })
 
   // saves message based on type
   switch (req.body.type.toLowerCase()) {
@@ -159,7 +169,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
-    var cron = schedule.scheduleJob(schedDate, () => {
+    // var cron = schedule.scheduleJob(schedDate, () => {
       var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + webhook
       var options = {
         method: 'post',
@@ -167,7 +177,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         json: true,
         url: url
       }
-      console.log('Scheduled Job Just Ran! at: ' + schedDate)
+      // console.log('Scheduled Job Just Ran! at: ' + schedDate)
 
       // this is where you need to post data from to other server
       request(options, function(err, res, body) {
@@ -181,7 +191,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         console.log('statusCode: ', statusCode)
         console.log('body: ', body)
       })
-    })
+    // })
   res.redirect('back')
 })
 
