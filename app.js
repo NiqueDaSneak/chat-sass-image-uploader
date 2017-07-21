@@ -152,8 +152,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     if (err) {
       console.log(err)
     } else {
-      // console.log(user)
-      webhook = user.webhook.toString()
+      webhook = user.webhook
+      console.log(webhook)
     }
   })
 
