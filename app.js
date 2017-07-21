@@ -56,6 +56,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
 
   var id
   var name
+  var imgURL
   if (req.file) {
     name = req.file.filename
     id = name.split('.')[0]
@@ -63,33 +64,32 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     id = Math.floor((Math.random() * 10000) + 1)
   }
 
-  // uploads to Cloudinary
-  // cloudinary.v2.uploader.upload(req.files.myImage.path, (error, result) => {
-  //   console.log(result)
-  // })
-
   // saves message based on type
   switch (req.body.type.toLowerCase()) {
     case 'image':
-      var newMsg = new Message({
-        type: req.body.type,
-        date: req.body.date,
-        time: req.body.time,
-        assetManifest: {
-          image: req.file.filename
-        },
-        organization: req.body.organization,
-        id: id
-      }).save((err, msg) => {
-        if (err) {
-          return console.error(err)
-        } else {
-          req.app.locals.id = id
-          req.app.locals.org = req.body.organization
-          next()
-        }
-      })
-      // res.redirect('back')
+        cloudinary.v2.uploader.upload(req.file.path, (error, result) => {
+            imgURL = result.secure_url
+            req.app.locals.imgUrl = result.secure_url
+        }).then(() => {
+          var newMsg = new Message({
+            type: req.body.type,
+            date: req.body.date,
+            time: req.body.time,
+            assetManifest: {
+              image: imgURL,
+            },
+            organization: req.body.organization,
+            id: id
+          }).save((err, msg) => {
+            if (err) {
+              return console.error(err)
+            } else {
+              req.app.locals.id = id
+              req.app.locals.org = req.body.organization
+              next()
+            }
+          })
+        })
       break
     case 'text':
       var newMsg = new Message({
@@ -152,8 +152,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     if (err) {
       console.log(err)
     } else {
-      webhook = user.webhook
-      console.log(webhook)
+      webhook = user.webhook.toString()
     }
   })
 
@@ -164,20 +163,22 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var mth = 6
     var day = 21
     var year = 2017
-    var hour = 10
+    var hour = 18
     var min = 35
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
-    // var cron = schedule.scheduleJob(schedDate, () => {
-      var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + webhook
+    var cron = schedule.scheduleJob(schedDate, () => {
+      // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + webhook
+      var url = 'http://localhost:5000/' + webhook
+      console.log(url)
       var options = {
         method: 'post',
         body: message,
         json: true,
         url: url
       }
-      // console.log('Scheduled Job Just Ran! at: ' + schedDate)
+      console.log('Scheduled Job Just Ran! at: ' + schedDate)
 
       // this is where you need to post data from to other server
       request(options, function(err, res, body) {
@@ -191,7 +192,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         console.log('statusCode: ', statusCode)
         console.log('body: ', body)
       })
-    // })
+    })
   res.redirect('back')
 })
 
