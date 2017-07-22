@@ -113,26 +113,30 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       // res.redirect('back')
       break
     case 'both':
-      var newMsg = new Message({
-        type: req.body.type,
-        date: req.body.date,
-        time: req.body.time,
-        assetManifest: {
-          text: req.body.msgText,
-          image: req.file.filename
-        },
-        organization: req.body.organization,
-        id: id
-      }).save((err, msg) => {
-        if (err) {
-          return console.error(err)
-        } else {
-          req.app.locals.id = id
-          req.app.locals.org = req.body.organization
-          next()
-        }
+      cloudinary.v2.uploader.upload(req.file.path, (error, result) => {
+          imgURL = result.secure_url
+          req.app.locals.imgUrl = result.secure_url
+      }).then(() => {
+        var newMsg = new Message({
+          type: req.body.type,
+          date: req.body.date,
+          time: req.body.time,
+          assetManifest: {
+            image: imgURL,
+            text: req.body.msgText
+          },
+          organization: req.body.organization,
+          id: id
+        }).save((err, msg) => {
+          if (err) {
+            return console.error(err)
+          } else {
+            req.app.locals.id = id
+            req.app.locals.org = req.body.organization
+            next()
+          }
+        })
       })
-      // res.redirect('back')
       break
     default:
   }
@@ -164,7 +168,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 21
     var year = 2017
     var hour = 18
-    var min = 35
+    var min = 54
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
