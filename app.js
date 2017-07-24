@@ -170,13 +170,13 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var day = 24
     var year = 2017
     var hour = 15
-    var min = 32
+    var min = 44
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
     var cron = schedule.scheduleJob(schedDate, () => {
-      // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + webhook
-      var url = 'http://localhost:5000/' + webhook
+      var url = 'https://chat-sass-messenger-uploader.herokuapp.com/' + webhook
+      // var url = 'http://localhost:5000/' + webhook
       console.log(url)
       var options = {
         method: 'post',
