@@ -63,7 +63,6 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   } else {
     id = Math.floor((Math.random() * 10000) + 1)
   }
-
   // saves message based on type
   switch (req.body.type.toLowerCase()) {
     case 'image':
@@ -79,7 +78,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
               image: imgURL,
             },
             organization: req.body.organization,
-            id: id
+            id: id,
+            groupNames: req.body.groupNames
           }).save((err, msg) => {
             if (err) {
               return console.error(err)
@@ -100,7 +100,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
           text: req.body.msgText
         },
         organization: req.body.organization,
-        id: id
+        id: id,
+        groupNames: req.body.groupNames
       }).save((err, msg) => {
         if (err) {
           return console.error(err)
@@ -126,7 +127,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
             text: req.body.msgText
           },
           organization: req.body.organization,
-          id: id
+          id: id,
+          groupNames: req.body.groupNames
         }).save((err, msg) => {
           if (err) {
             return console.error(err)
@@ -165,10 +167,10 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     // var year = Number(msg.date.split('-')[2])
     // var hour = tellTime(msg.time)
     var mth = 6
-    var day = 23
+    var day = 24
     var year = 2017
     var hour = 15
-    var min = 46
+    var min = 32
     // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
