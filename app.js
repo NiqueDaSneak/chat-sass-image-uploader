@@ -53,7 +53,6 @@ var User = mongoose.model('User', userSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
 app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next) {
-
   var id
   var name
   var imgURL
@@ -169,13 +168,13 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     var mth = 6
     var day = 29
     var year = 2017
-    var hour = 16
-    var min = 20
+    var hour = 17
+    var min = 55
     var schedDate = new Date(year, mth, day, hour, min, 0 )
 
     var cron = schedule.scheduleJob(schedDate, () => {
-      var url = 'https://chat-sass-messenger-uploader.herokuapp.com/'
-      // var url = 'http://localhost:5000/'
+      // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/'
+      var url = 'http://localhost:5000/'
       console.log(url)
       var options = {
         method: 'post',
