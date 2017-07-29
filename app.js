@@ -162,17 +162,16 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     }
   })
 
-    var mth = Number(msg.date.split('-')[0])
-    var day = Number(msg.date.split('-')[1])
-    var year = Number(msg.date.split('-')[2])
-    var hour = tellTime(msg.time)
-    // var mth = 6
-    // var day = 26
-    // var year = 2017
-    // var hour = 22
-    // var min = 15
-    // var cronTime = '*' + ' ' + min + ' ' + hour + ' ' + day + ' ' + mth + ' ' + '*'
-    var schedDate = new Date(year, mth, day, hour, 0, 0 )
+    // var mth = Number(msg.date.split('-')[0])
+    // var day = Number(msg.date.split('-')[1])
+    // var year = Number(msg.date.split('-')[2])
+    // var hour = tellTime(msg.time)
+    var mth = 6
+    var day = 29
+    var year = 2017
+    var hour = 16
+    var min = 20
+    var schedDate = new Date(year, mth, day, hour, min, 0 )
 
     var cron = schedule.scheduleJob(schedDate, () => {
       var url = 'https://chat-sass-messenger-uploader.herokuapp.com/'
