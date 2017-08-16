@@ -94,8 +94,6 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         } else {
           console.log('saving...')
           req.app.locals.msg = msg
-          // req.app.locals.id = id
-          // req.app.locals.org = req.body.organization
           next()
         }
       })
@@ -111,16 +109,11 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
   var year = Number(req.app.locals.msg.date.split('-')[0])
   var hour = Number(req.app.locals.msg.time.split(':')[0])
   var min = Number(req.app.locals.msg.time.split(':')[1])
-  // var mth = 7
-  // var day = 1
-  // var year = 2017
-  // var hour = 9
-  // var min = 3
   console.log('id: ' + req.app.locals.msg._id)
   var schedDate = new Date(year, mth, day, hour, min, 0)
       var cron = schedule.scheduleJob(schedDate, () => {
-  //       // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/'
-        var url = 'http://localhost:5000/'
+        var url = 'https://chat-sass-messenger-uploader.herokuapp.com/'
+        // var url = 'http://localhost:5000/'
         console.log(url)
         var options = {
           method: 'post',
@@ -145,152 +138,8 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
       })
 
   res.redirect('back')
-  // res.send(200)
 })
 
-//   var name
-//   var imgURL
-//   if (req.file) {
-//     name = req.file.filename
-//     id = name.split('.')[0]
-//   } else {
-//     id = Math.floor((Math.random() * 10000) + 1)
-//   }
-//   // saves message based on type
-//   switch (req.body.type.toLowerCase()) {
-//     case 'image':
-//         cloudinary.v2.uploader.upload(req.file.path, (error, result) => {
-//             imgURL = result.secure_url
-//             req.app.locals.imgUrl = result.secure_url
-//         }).then(() => {
-//           var newMsg = new Message({
-//             type: req.body.type,
-//             date: req.body.date,
-//             time: req.body.time,
-//             assetManifest: {
-//               image: imgURL,
-//             },
-//             organization: req.body.organization,
-//             id: id,
-//             groupNames: req.body.groupNames
-//           }).save((err, msg) => {
-//             if (err) {
-//               return console.error(err)
-//             } else {
-//               req.app.locals.id = id
-//               req.app.locals.org = req.body.organization
-//               next()
-//             }
-//           })
-//         })
-//       break
-//     case 'text':
-//       var newMsg = new Message({
-//         type: req.body.type,
-//         date: req.body.date,
-//         time: req.body.time,
-//         assetManifest: {
-//           text: req.body.msgText
-//         },
-//         organization: req.body.organization,
-//         id: id,
-//         groupNames: req.body.groupNames
-//       }).save((err, msg) => {
-//         if (err) {
-//           return console.error(err)
-//         } else {
-//           req.app.locals.id = id
-//           req.app.locals.org = req.body.organization
-//           next()
-//         }
-//       })
-//       // res.redirect('back')
-//       break
-//     case 'both':
-//       cloudinary.v2.uploader.upload(req.file.path, (error, result) => {
-//           imgURL = result.secure_url
-//           req.app.locals.imgUrl = result.secure_url
-//       }).then(() => {
-//         var newMsg = new Message({
-//           type: req.body.type,
-//           date: req.body.date,
-//           time: req.body.time,
-//           assetManifest: {
-//             image: imgURL,
-//             text: req.body.msgText
-//           },
-//           organization: req.body.organization,
-//           id: id,
-//           groupNames: req.body.groupNames
-//         }).save((err, msg) => {
-//           if (err) {
-//             return console.error(err)
-//           } else {
-//             req.app.locals.id = id
-//             req.app.locals.org = req.body.organization
-//             next()
-//           }
-//         })
-//       })
-//       break
-//     default:
-//   }
-// }, (req, res, next) => {
-//   var message
-//   var webhook
-//
-//   Message.findOne({ 'id': req.app.locals.id }, (err, msg) => {
-//     if (err) {
-//       console.log(err)
-//     } else {
-//       message = msg
-//     }
-//   })
-//
-//   User.findOne({ 'organization': req.app.locals.org }, (err, user) => {
-//     if (err) {
-//       console.log(err)
-//     } else {
-//       webhook = user.webhook.toString()
-//     }
-//   })
-//
-//     // var mth = Number(msg.date.split('-')[0])
-//     // var day = Number(msg.date.split('-')[1])
-//     // var year = Number(msg.date.split('-')[2])
-//     // var hour = tellTime(msg.time)
-//     var mth = 7
-//     var day = 1
-//     var year = 2017
-//     var hour = 9
-//     var min = 3
-//     var schedDate = new Date(year, mth, day, hour, min, 0 )
-//
-//     var cron = schedule.scheduleJob(schedDate, () => {
-//       // var url = 'https://chat-sass-messenger-uploader.herokuapp.com/'
-//       var url = 'http://localhost:5000/'
-//       console.log(url)
-//       var options = {
-//         method: 'post',
-//         body: message,
-//         json: true,
-//         url: url
-//       }
-//       console.log('Scheduled Job Just Ran! at: ' + schedDate)
-//
-//       // this is where you need to post data from to other server
-//       request(options, function(err, res, body) {
-//         if (err) {
-//           console.error('error posting json: ', err)
-//           throw err
-//         }
-//         var headers = res.headers
-//         var statusCode = res.statusCode
-//         console.log('headers: ', headers)
-//         console.log('statusCode: ', statusCode)
-//         console.log('body: ', body)
-//       })
-//     })
 
 // HELPER FUNCTION
 function tellTime(time) {
