@@ -34,7 +34,8 @@ cloudinary.config({
 
 // DATABASE SETUP
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://dom:Losangeleslakers47@ds123182.mlab.com:23182/chat-sass-frontend')
+// mongoose.connect('mongodb://dom:Losangeleslakers47@ds123182.mlab.com:23182/chat-sass-frontend')
+mongoose.connect('mongodb://domclemmer:domclemmerpasswordirrigate@ds153173-a0.mlab.com:53173,ds153173-a1.mlab.com:53173/irrigate?replicaSet=rs-ds153173', {useMongoClient: true})
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 var messageSchema = mongoose.Schema({
