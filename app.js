@@ -132,7 +132,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         console.log(url)
         var options = {
           method: 'post',
-          body: req.app.locals.msg.id,
+          body: req.app.locals.msg,
           json: true,
           url: url
         }
