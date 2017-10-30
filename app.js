@@ -1,11 +1,12 @@
 "use strict"
 
 // NPM PACKAGES
-var express = require('express')
-var multer = require('multer')
-var schedule = require('node-schedule')
-var request = require('request')
-var cloudinary = require('cloudinary')
+const express = require('express')
+const multer = require('multer')
+const schedule = require('node-schedule')
+const request = require('request')
+const cloudinary = require('cloudinary')
+const moment = require('moment')
 
 var storage = multer.diskStorage({
   destination: 'public/uploads/',
@@ -46,21 +47,22 @@ var messageSchema = mongoose.Schema({
   videoURL: String,
   organization: String,
   groupNames: Array,
-  id: Number
+  id: String,
+  createdDate: String
 })
 var Message = mongoose.model('Message', messageSchema)
 
 var userSchema = mongoose.Schema({
   email: String,
   organization: String,
-  facebook: {
-    userID: Number,
-    pageID: Number,
-    pageAccessToken: String,
-    userAccessToken: String
-  },
-  webhook: Number
+  onboarded: Boolean,
+  username: String,
+  userID: String,
+  pageID: String,
+  pageAccessToken: String,
+  userAccessToken: String,
 })
+
 var User = mongoose.model('User', userSchema)
 
 // SERVER ROUTE FOR RECIEVING MESSAGE DATA
@@ -77,13 +79,25 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
     }
   })
 
+  function guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+  }
+
   var saveStandardData = new Promise(function(resolve, reject) {
     newMsg.date = req.body.date
-    newMsg.time = req.body.time,
-      newMsg.text = req.body.msgText
+    newMsg.time = req.body.time
+    newMsg.text = req.body.msgText
     newMsg.videoURL = req.body.videoURL
-    newMsg.organization = req.body.organization,
-      newMsg.groupNames = req.body.groupNames
+    newMsg.organization = req.body.organization
+    newMsg.groupNames = req.body.groupNames
+    newMsg.createdDate = moment().format('MM-DD-YYYY')
+    newMsg.id = guid()
     resolve()
   })
 
@@ -118,7 +132,7 @@ app.post('/submit-data', upload.single('uploadedImage'), function(req, res, next
         console.log(url)
         var options = {
           method: 'post',
-          body: req.app.locals.msg,
+          body: req.app.locals.msg.id,
           json: true,
           url: url
         }
